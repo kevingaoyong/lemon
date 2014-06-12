@@ -24,13 +24,13 @@ public class DatabaseUserProcessor implements UserProcessor {
      * </ul>
      */
     public void insertUser(String id, String username) {
-        String insertPartyEntitySql = "insert into party_entity(type_id,name,reference) values(?,?,?)";
+        String insertPartyEntitySql = "insert into PARTY_ENTITY(type_id,name,reference) values(?,?,?)";
         jdbcTemplate.update(insertPartyEntitySql, partyTypeId, username, id);
 
-        String selectPartyEntitySql = "select id from party_entity where type_id=? and reference=?";
+        String selectPartyEntitySql = "select id from PARTY_ENTITY where type_id=? and reference=?";
         Map<String, Object> map = jdbcTemplate.queryForMap(
                 selectPartyEntitySql, partyTypeId, id);
-        String insertPartyStructSql = "insert into party_struct(STRUCT_TYPE_ID,PARENT_ENTITY_ID,CHILD_ENTITY_ID) values(?,?,?)";
+        String insertPartyStructSql = "insert into party_struct PARTY_STRUCT(STRUCT_TYPE_ID,PARENT_ENTITY_ID,CHILD_ENTITY_ID) values(?,?,?)";
         jdbcTemplate.update(insertPartyStructSql, partyStructTypeId,
                 map.get("id"), map.get("id"));
     }
@@ -42,7 +42,7 @@ public class DatabaseUserProcessor implements UserProcessor {
      * </p>
      */
     public void updateUser(String id, String username) {
-        String updatePartyEntitySql = "update party_entity set name=? where type_id=? and reference=?";
+        String updatePartyEntitySql = "update PARTY_ENTITY set name=? where type_id=? and reference=?";
         jdbcTemplate.update(updatePartyEntitySql, username, partyTypeId, id);
     }
 
@@ -55,19 +55,19 @@ public class DatabaseUserProcessor implements UserProcessor {
      * </ul>
      */
     public void removeUser(String id) {
-        String selectPartyEntitySql = "select id from party_entity where type_id=? and reference=?";
+        String selectPartyEntitySql = "select id from PARTY_ENTITY where type_id=? and reference=?";
         Map<String, Object> map = jdbcTemplate.queryForMap(
                 selectPartyEntitySql, partyTypeId, id);
 
-        String removePartyStructParentSql = "delete from party_struct where struct_type_id=? and parent_entity_id=?";
+        String removePartyStructParentSql = "delete from PARTY_STRUCT where struct_type_id=? and parent_entity_id=?";
         jdbcTemplate.update(removePartyStructParentSql, partyStructTypeId,
                 map.get("id"));
 
-        String removePartyStructChildSql = "delete from party_struct where struct_type_id=? and child_entity_id=?";
+        String removePartyStructChildSql = "delete from PARTY_STRUCT where struct_type_id=? and child_entity_id=?";
         jdbcTemplate.update(removePartyStructChildSql, partyStructTypeId,
                 map.get("id"));
 
-        String removePartyEntitySql = "delete from party_entity where id=?";
+        String removePartyEntitySql = "delete from PARTY_ENTITY where id=?";
         jdbcTemplate.update(removePartyEntitySql, map.get("id"));
     }
 

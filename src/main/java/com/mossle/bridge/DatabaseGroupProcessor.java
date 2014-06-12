@@ -21,7 +21,7 @@ public class DatabaseGroupProcessor implements GroupProcessor {
      * </p>
      */
     public void insertGroup(String id, String name) {
-        String insertPartyEntitySql = "insert into party_entity(type_id,name,reference) values(2,?,?)";
+        String insertPartyEntitySql = "insert into PARTY_ENTITY(type_id,name,reference) values(2,?,?)";
         jdbcTemplate.update(insertPartyEntitySql, name, id);
     }
 
@@ -32,7 +32,7 @@ public class DatabaseGroupProcessor implements GroupProcessor {
      * </p>
      */
     public void updateGroup(String id, String name) {
-        String updatePartyEntitySql = "update party_entity set name=? where type_id=2 and reference=?";
+        String updatePartyEntitySql = "update PARTY_ENTITY set name=? where type_id=2 and reference=?";
         jdbcTemplate.update(updatePartyEntitySql, name, id);
     }
 
@@ -45,17 +45,17 @@ public class DatabaseGroupProcessor implements GroupProcessor {
      * </ul>
      */
     public void removeGroup(String id) {
-        String selectPartyEntitySql = "select id from party_entity where type_id=2 and reference=?";
+        String selectPartyEntitySql = "select id from PARTY_ENTITY where type_id=2 and reference=?";
         Map<String, Object> map = jdbcTemplate.queryForMap(
                 selectPartyEntitySql, id);
 
-        String removePartyStructParentSql = "delete from party_struct where struct_type_id=1 and parent_entity_id=?";
+        String removePartyStructParentSql = "delete from PARTY_STRUCT where struct_type_id=1 and parent_entity_id=?";
         jdbcTemplate.update(removePartyStructParentSql, map.get("id"));
 
-        String removePartyStructChildSql = "delete from party_struct where struct_type_id=1 and child_entity_id=?";
+        String removePartyStructChildSql = "delete from PARTY_STRUCT where struct_type_id=1 and child_entity_id=?";
         jdbcTemplate.update(removePartyStructChildSql, map.get("id"));
 
-        String removePartyEntitySql = "delete from party_entity where id=?";
+        String removePartyEntitySql = "delete from PARTY_ENTITY where id=?";
         jdbcTemplate.update(removePartyEntitySql, map.get("id"));
     }
 

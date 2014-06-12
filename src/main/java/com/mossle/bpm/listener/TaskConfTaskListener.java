@@ -88,7 +88,7 @@ public class TaskConfTaskListener extends DefaultTaskListener implements
     }
 
     public List<String> process(String text) {
-        String sql = "select child.name from party_entity parent,party_struct ps,party_entity child,party_type child_type"
+        String sql = "select child.name from PARTY_ENTITY parent,PARTY_STRUCT ps,PARTY_ENTITY child,PARTY_TYPE child_type"
                 + " where parent.id=ps.parent_entity_id and ps.child_entity_id=child.id and child.type_id=child_type.id"
                 + " and child_type.person=1 and parent.name=?";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, text);
