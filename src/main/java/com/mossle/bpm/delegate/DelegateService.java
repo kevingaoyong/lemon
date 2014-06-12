@@ -77,12 +77,12 @@ public class DelegateService {
     }
 
     public void removeRecord(Long id) {
-        jdbcTemplate.update("delete from bpm_delegate_info where id=?", id);
+        jdbcTemplate.update("delete from BPM_DELEGATE_INFO where id=?", id);
     }
 
     public void addDelegateInfo(String assignee, String attorney,
             Date startTime, Date endTime, String processDefinitionId) {
-        String sql = "insert into bpm_delegate_info(assignee,attorney,start_time,end_time,process_definition_id,status) values(?,?,?,?,?,?)";
+        String sql = "insert into BPM_DELEGATE_INFO(assignee,attorney,start_time,end_time,process_definition_id,status) values(?,?,?,?,?,?)";
         jdbcTemplate.update(sql, assignee, attorney, startTime, endTime,
                 processDefinitionId, 1);
     }
