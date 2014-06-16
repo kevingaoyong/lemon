@@ -84,7 +84,7 @@ public class OrgController {
             @ModelAttribute Page page) {
         init(model, partyStructTypeId, partyEntityId);
 
-        String hql = "from PARTYSTRUCT where childEntity.partyType.type=1 and parentEntity.id=?";
+        String hql = "from PartyStruct where childEntity.partyType.type=1 and parentEntity.id=?";
         page = partyStructTypeManager.pagedQuery(hql, page.getPageNo(),
                 page.getPageSize(), partyEntityId);
         model.addAttribute("page", page);
@@ -119,7 +119,7 @@ public class OrgController {
         logger.debug("user id : {}", userDto.getId());
 
         PartyEntity child = partyEntityManager.findUnique(
-                "from PARTYENTITY where partyType.type=1 and ref=?",
+                "from PartyEntity where partyType.type=1 and ref=?",
                 userDto.getId());
         logger.debug("child : {}", child);
 
@@ -160,7 +160,7 @@ public class OrgController {
             @ModelAttribute Page page) throws Exception {
         init(model, partyStructTypeId, partyEntityId);
 
-        String hql = "select ps from PARTYENTITY child join child.parentStructs ps join ps.parentEntity parent"
+        String hql = "select ps from PartyEntity child join child.parentStructs ps join ps.parentEntity parent"
                 + " where child.partyType.type=0 and parent.id=?";
         page = partyEntityManager.pagedQuery(hql, page.getPageNo(),
                 page.getPageSize(), partyEntityId);
@@ -178,7 +178,7 @@ public class OrgController {
         init(model, partyStructTypeId, partyEntityId);
 
         List<PartyType> partyTypes = partyTypeManager
-                .find("from PARTYTYPE where type=0");
+                .find("from PartyType where type=0");
 
         model.addAttribute("partyTypes", partyTypes);
 
@@ -191,7 +191,7 @@ public class OrgController {
             @RequestParam("partyEntityId") Long partyEntityId,
             @RequestParam("partyStructTypeId") Long partyStructTypeId) {
         PartyEntity child = partyEntityManager.findUnique(
-                "from PARTYENTITY where name=? and partyType.id=?", name,
+                "from PartyEntity where name=? and partyType.id=?", name,
                 partyTypeId);
         PartyEntity parent = partyEntityManager.get(partyEntityId);
         Assert.notNull(child, name + "(" + partyTypeId + ") is null");
